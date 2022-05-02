@@ -23,7 +23,7 @@ const CharInfo = (props) => {
     const updateChar = () => {
         const {charId} = props;
         if (!charId) {
-            return;
+            return; 
         }
         onCharLoading();
         marvelService.getCharacter(charId)
