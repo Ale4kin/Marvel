@@ -19,18 +19,14 @@ export const useHttp = () => {
 
             setLoading(false);
             return data;
-
         } catch(e) {
             setLoading(false);
             setError(e.message);
             throw e;
         }
-    }, [])
-
+    }, []);
 
     const clearError = useCallback(() => setError(null), []);
 
-
-    return {loading, request, error, clearError};
-
+    return {loading, request, error, clearError}
 }

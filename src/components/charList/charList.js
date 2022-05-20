@@ -12,8 +12,8 @@ const CharList = (props) => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
-    
-    const {loading, error, getAllCharacters} =  useMarvelService();
+
+    const {loading, error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
@@ -21,7 +21,8 @@ const CharList = (props) => {
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
-        getAllCharacters(offset).then(onCharListLoaded);
+        getAllCharacters(offset)
+            .then(onCharListLoaded)
     }
 
     const onCharListLoaded = (newCharList) => {
@@ -36,24 +37,15 @@ const CharList = (props) => {
         setCharEnded(charEnded => ended);
     }
 
-
     const itemRefs = useRef([]);
 
     const focusOnItem = (id) => {
-        // Я реализовал вариант чуть сложнее, и с классом и с фокусом
-        // Но в теории можно оставить только фокус, и его в стилях использовать вместо класса
-        // На самом деле, решение с css-классом можно сделать, вынеся персонажа
-        // в отдельный компонент. Но кода будет больше, появится новое состояние
-        // и не факт, что мы выиграем по оптимизации за счет бОльшего кол-ва элементов
-
-        // По возможности, не злоупотребляйте рефами, только в крайних случаях
+        
         itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
         itemRefs.current[id].classList.add('char__item_selected');
         itemRefs.current[id].focus();
     }
 
-    // Этот метод создан для оптимизации, 
-    // чтобы не помещать такую конструкцию в метод render
     function renderItems(arr) {
         const items =  arr.map((item, i) => {
             let imgStyle = {'objectFit' : 'cover'};
@@ -94,7 +86,6 @@ const CharList = (props) => {
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading && !newItemLoading ? <Spinner/> : null;
-    
 
     return (
         <div className="char__list">
@@ -115,4 +106,5 @@ const CharList = (props) => {
 CharList.propTypes = {
     onCharSelected: PropTypes.func.isRequired
 }
+
 export default CharList;
